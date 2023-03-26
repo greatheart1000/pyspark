@@ -1,0 +1,16 @@
+from pyspark import SparkConf,SparkContext
+# distinct算子实现去重操作
+if __name__ == '__main__':
+
+    conf =SparkConf().setAppName("test").setMaster("local[*]")
+    sc = SparkContext(conf=conf)
+    rdd=sc.parallelize([1,2,3,45,6,7,8,11,12],3)
+
+    def process(iter):
+        result=[]
+        for data in iter:
+            result.append(data*10)
+        return result
+
+    #[10, 20, 30, 450, 60, 70, 80, 110, 120]
+    print(rdd.mapPartitions(process).collect())
